@@ -22,15 +22,13 @@ class DRandom
     DRandom.withSeed(int Seed)
     {
         _init();
-        print('Seed = ' + Seed);
         _seed(Seed);
     }
     DRandom() 
     {
         _init();
         int i = Math.random();
-        int Seed = (i*MBIG).floor();
-        print('Seed = ' + Seed);
+        int Seed = (i*MBIG).floor().toInt();
         _seed(Seed);
     }
     
@@ -114,30 +112,90 @@ class DRandom
 
     int Next() 
     {
-        int retVal = (Sample() * MBIG).floor();
+        int retVal = (Sample() * MBIG).floor().toInt();
         return retVal;
     }
 
     int NextFromMax(int maxValue)
     {
-        throw new NotImplementedException();
-        return 0;
+        if (maxValue < 0)
+        {
+            throw new IllegalArgumentException("maxValue less then zero");
+        }
+       
+        int retVal = (Sample() * maxValue).toInt();
+        return retVal;
     }
 
+    // maxValue is exclusive
     int NextFromRange(int minValue, int maxValue)
     {
-        throw new NotImplementedException();
-        return 0;
+        if (minValue > maxValue)
+        {
+            throw new IllegalArgumentException("Min value is greater than max value.");
+        }
+        
+        int diff = maxValue - minValue;
+        if (diff.abs() <= 1)
+        {
+            return minValue;
+        }
+
+        int retVal = ((Sample() * diff) + minValue).toInt();
+        return retVal;
     }
 
-    List<int> NextInts()
+    List<int> NextInts(int size)
     {
-        throw new NotImplementedException();
+        if (size <= 0)
+        {
+            throw new IllegalArgumentException("size less then equal to zero");
+        }
+
+        List<int> buff = new List<int>(size);
+        for (int i=0; i<size; i++)
+        {
+            buff[i] = (Sample() * (MBIG + 1)).toInt();
+        }
+
+        return buff;
+    }
+
+    // maxValue is exclusive. 
+    Map<int,int> NextIntsUnique(int minValue, int maxValue, int size)
+    {
+        if (minValue > maxValue)
+        {
+            throw new IllegalArgumentException("Min value is greater than max value.");
+        }
+
+        if (size > (maxValue - minValue))
+        {
+            throw new IllegalArgumentException("size less then maxValue-minValue");
+        }
+
+        Map<int,int> intMap = new Map<int,int>();
+        for (int i=1; i<=size; i++)
+        {
+            bool unique = false; 
+            while (unique!=true)
+            {
+                int v = NextFromRange(minValue,maxValue);
+                if (!intMap.containsValue(v) && 
+                v >= minValue &&
+                v <= maxValue)
+                {
+                    intMap[i] = v;
+                    unique = true;
+                }
+            }
+        }
+
+        return intMap;
     }
 
     double NextDouble()
     {
-        throw new NotImplementedException();
-        return 0.0;
+        return Sample();
     }
 }

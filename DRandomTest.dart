@@ -26,4 +26,11 @@ void main()
     {
         print(DRandomSeed.Next());
     }
+
+     print (DRandomSeed.NextFromMax(10));   
+     print (DRandomSeed.NextDouble());
+
+     var m = DRandomSeed.NextIntsUnique(0,20,19);
+     print(m);
+     m.forEach((k,v) => print('${k},${v}'));
 }
