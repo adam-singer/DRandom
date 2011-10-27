@@ -194,6 +194,7 @@ class DRandom
         return intMap;
     }
 
+    // returns value between 0 to 1
     double NextDouble()
     {
         return Sample();
