@@ -1,37 +1,84 @@
-//#library('DRandom');
-// Not cryptographically safe.
-// A weak seed will produce weak results. 
-// Dart Math.random does not re seed its 
-// rng so will produce the same results on every run. 
-// Code referenced is mono/mcs/class/corelib/system/Random.cs
+// DRandom.dart 
+//
+// Authors:
+// Adam Singer (financeCoding@gmail.com)
+// (C) 2012 Adam Singer. http://goo.gl/qouCM
+//
+// System.Random.cs
+//
+// Authors:
+//   Bob Smith (bob@thestuff.net)
+//   Ben Maurer (bmaurer@users.sourceforge.net)
+//
+// (C) 2001 Bob Smith.  http://www.thestuff.net
+// (C) 2003 Ben Maurer
+//
+//
+// Copyright (C) 2004 Novell, Inc (http://www.novell.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+#library('DRandom');
+#import('dart:math', prefix:'Math');
+
+/**
+ * Suppliment pseudorandom random number generator for dart based on
+ * similar implementations in mono C#
+ */
 class DRandom
 {
-    //2147483647
-    //-2147483648
-    final int INTMAX = 2147483647;
-    final int INTMIN = -2147483648;
+    const int INTMAX = 2147483647;
+    const int INTMIN = -2147483648;
 
     int MBIG;
-    int MSEED = 161803398;
+    const int MSEED = 161803398;
    
     int inext;
     int inextp;
 
     List<int> SeedArray;
 
+    /**
+     * Create [DRandom] with seed value.
+     */
     DRandom.withSeed(int Seed)
     {
         _init();
         _seed(Seed);
     }
+    
+    /**
+     * Create [DRandom].
+     */
     DRandom() 
     {
         _init();
-        int i = Math.random();
+        int i = new Math.Random().nextInt((1<<32) - 1);
         int Seed = (i*MBIG).floor().toInt();
         _seed(Seed);
     }
     
+    /**
+     * internal method to see the prng.
+     */
     void _seed(int Seed)
     {
         int ii;
@@ -78,12 +125,19 @@ class DRandom
         inextp = 31;
     }
 
+    /**
+     * init the max integer and allocate the seeds array.
+     */
     void _init()
     {
         MBIG = INTMAX;
         SeedArray = new List<int>(56);
     }
 
+    /**
+     * Return a sample from the prng, this modifies the state
+     * of the prng. 
+     */
     double Sample()
     {
         int retVal;
@@ -110,12 +164,18 @@ class DRandom
         return retVal * (1.0 / MBIG);
     }
 
+    /**
+     * Return the next random integer.
+     */
     int Next() 
     {
         int retVal = (Sample() * MBIG).floor().toInt();
         return retVal;
     }
 
+    /**
+     * Get the next random integer  exclusive to [maxValue].  
+     */
     int NextFromMax(int maxValue)
     {
         if (maxValue < 0)
@@ -127,7 +187,9 @@ class DRandom
         return retVal;
     }
 
-    // maxValue is exclusive
+    /**
+     * Return the next random integer inclusive to [minValue] exclusive to [maxValue].
+     */
     int NextFromRange(int minValue, int maxValue)
     {
         if (minValue > maxValue)
@@ -145,6 +207,9 @@ class DRandom
         return retVal;
     }
 
+    /**
+     * Return a list of random ints of [size].
+     */
     List<int> NextInts(int size)
     {
         if (size <= 0)
@@ -161,7 +226,9 @@ class DRandom
         return buff;
     }
 
-    // maxValue is exclusive. 
+    /** 
+     * Returns a [Map] of unique integers of [size] with random integer inclusive to [minValue] exclusive to [maxValue].
+     */
     Map<int,int> NextIntsUnique(int minValue, int maxValue, int size)
     {
         if (minValue > maxValue)
@@ -194,7 +261,9 @@ class DRandom
         return intMap;
     }
 
-    // returns value between 0 to 1
+    /**
+     * Returns random [double] value between 0.0 to 1.0.
+     */
     double NextDouble()
     {
         return Sample();

@@ -1,16 +1,18 @@
-#source('DRandom.dart');
+#import('../lib/DRandom.dart');
+#import('dart:math', prefix:'Math');
 
 void main()
 {
-    print ('Math.random() = ' + Math.random());
-    print ('Math.random() = ' + Math.random());
-    print ('Math.random() = ' + Math.random());
-    print ('Math.random() = ' + Math.random());
-    print ('Math.random() = ' + Math.random());
+    Math.Random rnd = new Math.Random();
+    print ('Math.random() = ${rnd.nextDouble()}');
+    print ('Math.random() = ${rnd.nextDouble()}');
+    print ('Math.random() = ${rnd.nextDouble()}');
+    print ('Math.random() = ${rnd.nextDouble()}');
+    print ('Math.random() = ${rnd.nextDouble()}');
     
     var DRandomNoSeed = new DRandom();
     Date d = new Date.now();
-    var DRandomSeed = new DRandom.withSeed(d.value%2147483647);
+    var DRandomSeed = new DRandom.withSeed(d.millisecondsSinceEpoch%2147483647);
     print(DRandomNoSeed.MBIG);
 
     print ('printing with no seed'); 
