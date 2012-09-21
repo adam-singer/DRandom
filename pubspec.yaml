@@ -1,0 +1,6 @@
+name: drandom
+description: Alternative pseudorandom random number generator for dart based on a similar implementation in mono/C#
+version: 0.0.1
+dependencies:
+  unittest:
+    sdk: unittest
