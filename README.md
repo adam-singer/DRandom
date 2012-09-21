@@ -12,7 +12,7 @@ dependencies:
   drandom:
     git: https://github.com/financeCoding/DRandom.git
 ```
-and run **pub install** to install **dart-bignum** (including its dependencies). Now add import
+and run **pub install** to install **drandom** (including its dependencies). Now add import
 
 ```
 #import('package:drandom/drandom.dart');
