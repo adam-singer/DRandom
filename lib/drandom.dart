@@ -174,7 +174,7 @@ class DRandom
     }
 
     /**
-     * Get the next random integer  exclusive to [maxValue].  
+     * Get the next random integer exclusive to [maxValue].  
      */
     int NextFromMax(int maxValue)
     {
