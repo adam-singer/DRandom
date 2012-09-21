@@ -1,4 +1,4 @@
-#import('../lib/DRandom.dart');
+#import('package:drandom/drandom.dart');
 
 void main()
 {
