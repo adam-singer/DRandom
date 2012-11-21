@@ -1,6 +1,6 @@
 //#import('../lib/drandom.dart');
-#import('package:drandom/drandom.dart');
-#import('package:unittest/unittest.dart');
+import 'package:drandom/drandom.dart';
+import 'package:unittest/unittest.dart';
 
 void main() {
   group('DRandom Tests', () {
@@ -12,7 +12,7 @@ void main() {
       expect(drandom.NextDouble(), equals(0.25244181428684004));
     });
     test('Next', () {
-      var drandom = new DRandom.withSeed(1);  
+      var drandom = new DRandom.withSeed(1);
       expect(drandom.Next(), equals(787814235));
       expect(drandom.Next(), equals(446536433));
       expect(drandom.Next(), equals(2047446447));
@@ -38,7 +38,7 @@ void main() {
     test('NextInts', () {
       var drandom = new DRandom.withSeed(1);
       expect(drandom.NextInts(10), orderedEquals([787814235, 446536433, 2047446447, 542114668, 1948695961, 780511039, 1618872875, 1295684380, 1801045183, 765841297]));
-      expect(drandom.NextInts(1), orderedEquals([1843725396]));  
+      expect(drandom.NextInts(1), orderedEquals([1843725396]));
     });
     test('NextIntsUnique', () {
       var drandom = new DRandom.withSeed(1);
@@ -52,7 +52,7 @@ void main() {
       expect(r[7], equals(8));
       expect(r[8], equals(5));
       expect(r[9], equals(1));
-    }); 
+    });
 
   });
 }

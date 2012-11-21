@@ -1,4 +1,4 @@
-// DRandom.dart 
+// DRandom.dart
 //
 // Authors:
 // Adam Singer (financeCoding@gmail.com)
@@ -23,10 +23,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -36,8 +36,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#library('DRandom');
-#import('dart:math', prefix:'Math');
+library DRandom;
+import 'dart:math' as Math;
 
 /**
  * Suppliment pseudorandom random number generator for dart based on
@@ -50,7 +50,7 @@ class DRandom
 
     int MBIG;
     const int MSEED = 161803398;
-   
+
     int inext;
     int inextp;
 
@@ -64,18 +64,18 @@ class DRandom
         _init();
         _seed(Seed);
     }
-    
+
     /**
      * Create [DRandom].
      */
-    DRandom() 
+    DRandom()
     {
         _init();
         int i = new Math.Random().nextInt((1<<32) - 1);
         int Seed = (i*MBIG).floor().toInt();
         _seed(Seed);
     }
-    
+
     /**
      * internal method to see the prng.
      */
@@ -89,7 +89,7 @@ class DRandom
         {
             mj = MSEED - (INTMAX + 1).abs();
         }
-        else 
+        else
         {
             mj = MSEED - Seed.abs();
         }
@@ -136,13 +136,13 @@ class DRandom
 
     /**
      * Return a sample from the prng, this modifies the state
-     * of the prng. 
+     * of the prng.
      */
     double Sample()
     {
         int retVal;
 
-        if (++inext >= 56) 
+        if (++inext >= 56)
         {
             inext=1;
         }
@@ -158,7 +158,7 @@ class DRandom
         {
             retVal += MBIG;
         }
-            
+
         SeedArray[inext] = retVal;
 
         return retVal * (1.0 / MBIG);
@@ -167,22 +167,22 @@ class DRandom
     /**
      * Return the next random integer.
      */
-    int Next() 
+    int Next()
     {
         int retVal = (Sample() * MBIG).floor().toInt();
         return retVal;
     }
 
     /**
-     * Get the next random integer exclusive to [maxValue].  
+     * Get the next random integer exclusive to [maxValue].
      */
     int NextFromMax(int maxValue)
     {
         if (maxValue < 0)
         {
-            throw new IllegalArgumentException("maxValue less then zero");
+            throw new ArgumentError("maxValue less then zero");
         }
-       
+
         int retVal = (Sample() * maxValue).toInt();
         return retVal;
     }
@@ -194,9 +194,9 @@ class DRandom
     {
         if (minValue > maxValue)
         {
-            throw new IllegalArgumentException("Min value is greater than max value.");
+            throw new ArgumentError("Min value is greater than max value.");
         }
-        
+
         int diff = maxValue - minValue;
         if (diff.abs() <= 1)
         {
@@ -214,7 +214,7 @@ class DRandom
     {
         if (size <= 0)
         {
-            throw new IllegalArgumentException("size less then equal to zero");
+            throw new ArgumentError("size less then equal to zero");
         }
 
         List<int> buff = new List<int>(size);
@@ -226,29 +226,29 @@ class DRandom
         return buff;
     }
 
-    /** 
+    /**
      * Returns a [Map] of unique integers of [size] with random integer inclusive to [minValue] exclusive to [maxValue].
      */
     Map<int,int> NextIntsUnique(int minValue, int maxValue, int size)
     {
         if (minValue > maxValue)
         {
-            throw new IllegalArgumentException("Min value is greater than max value.");
+            throw new ArgumentError("Min value is greater than max value.");
         }
 
         if (size > (maxValue - minValue))
         {
-            throw new IllegalArgumentException("size less then maxValue-minValue");
+            throw new ArgumentError("size less then maxValue-minValue");
         }
 
         Map<int,int> intMap = new Map<int,int>();
         for (int i=1; i<=size; i++)
         {
-            bool unique = false; 
+            bool unique = false;
             while (unique!=true)
             {
                 int v = NextFromRange(minValue,maxValue);
-                if (!intMap.containsValue(v) && 
+                if (!intMap.containsValue(v) &&
                 v >= minValue &&
                 v <= maxValue)
                 {
