@@ -4,4 +4,4 @@ version: 0.0.1
 author: Adam Singer <financeCoding@gmail.com>
 homepage: https://github.com/financeCoding/DRandom
 dependencies:
-  unittest: any
+  unittest: 0.2.7
