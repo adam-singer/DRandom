@@ -131,7 +131,7 @@ class DRandom
     void _init()
     {
         MBIG = INTMAX;
-        SeedArray = new List<int>(56);
+        SeedArray = new List<int>.fixedLength(56);
     }
 
     /**
@@ -217,7 +217,7 @@ class DRandom
             throw new ArgumentError("size less then equal to zero");
         }
 
-        List<int> buff = new List<int>(size);
+        List<int> buff = new List<int>.fixedLength(size);
         for (int i=0; i<size; i++)
         {
             buff[i] = (Sample() * (MBIG + 1)).toInt();
