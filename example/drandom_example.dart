@@ -3,7 +3,7 @@ import 'package:drandom/drandom.dart';
 void main()
 {
     var DRandomNoSeed = new DRandom();
-    var DRandomSeed = new DRandom.withSeed(new Date.now().millisecondsSinceEpoch%2147483647);
+    var DRandomSeed = new DRandom.withSeed(new DateTime.now().millisecondsSinceEpoch%2147483647);
 
     print('With no seed');
     int i=10;
