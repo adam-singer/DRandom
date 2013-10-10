@@ -39,17 +39,19 @@
 library DRandom;
 import 'dart:math' as Math;
 
+const int INTMAX = 2147483647;
+const int INTMIN = -2147483648;
+
+const int MSEED = 161803398;
+
 /**
  * Suppliment pseudorandom random number generator for dart based on
  * similar implementations in mono C#
  */
 class DRandom
 {
-    const int INTMAX = 2147483647;
-    const int INTMIN = -2147483648;
 
     int MBIG;
-    const int MSEED = 161803398;
 
     int inext;
     int inextp;
